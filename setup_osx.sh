@@ -2,14 +2,16 @@
 
 #// smithsf0x
 
+source_flag=$TRUE
+
 start(){
-	echo "       ______________________"
-	echo "      /                     /"
-	echo "     /     smithsf0x       /"
-	echo "    / automated installer /"
-	echo "   /   for PSP2SDK       /"
-	echo "  /      MacOS X        /"
-	echo " /_____________________/"
+	echo "      ______________________"
+	echo "     /                     /"
+	echo "    /     smithsf0x       /"
+	echo "   / automated installer /"
+	echo "  /   for PSP2SDK       /"
+	echo " /      MacOS X        /"
+	echo "/_____________________/"
 	echo "|"
 }
 
@@ -19,7 +21,7 @@ check_command_line_tools(){
 
 	if [ $current_exit_status == 0 ]
 		then 
-			echo "|CommandLineTools Installed:        YES"
+			echo "|CommandLineTools Installed:         YES"
 			command_line_tools_installed=$TRUE
 		else
 			echo "|CommandLineTools Installed:   	NO"
@@ -56,10 +58,20 @@ check_devkit_arm(){
 }
 
 set_env_vars(){
-	echo "" >> ~/.bash_profile
-	echo "#PSP2SDK" >> ~/.bash_profile
-	echo "export PSP2SDK=\$DEVKITPRO/psp2" >> ~/.bash_profile
-	echo "export PATH=\$PATH:\$PSP2SDK/bin" >> ~/.bash_profile
+	if [ ! -z "$PSP2SDK" ]
+		then
+			echo "ALREADY CREATED"
+			source_flag=0
+		else
+			echo "" >> ~/.bash_profile
+			echo "#PSP2SDK" >> ~/.bash_profile
+			echo "export PSP2SDK=\$DEVKITPRO/psp2" >> ~/.bash_profile
+			echo "export PATH=\$PATH:\$PSP2SDK/bin" >> ~/.bash_profile
+			export PSP2SDK=$DEVKITPRO/psp2
+			export PATH=$PATH:$PSP2SDK/bin
+			echo "DONE"
+			source_flag=1
+	fi
 }
 
 create_psp2_folder(){
@@ -75,17 +87,18 @@ create_psp2_folder(){
 setup(){
 	echo -ne "|Exporting and Writing:              "
 	set_env_vars
-	export PSP2SDK=$DEVKITPRO/psp2
-	export PATH=$PATH:$PSP2SDK/bin
-	echo "DONE"
 	echo -ne "|Creating PSP2SDK folder:            "
 	create_psp2_folder
 	echo "|------------------------------|"
-	echo "|       Setup FINISHED         |"
-	echo "| Run 'source ~/.bash_profile' |" 
-	echo "|    Now run install_osx.sh    |"
+	echo "|        Setup FINISHED        |"
+	if [ $source_flag == 1 ]
+		then
+			echo "| Run 'source ~/.bash_profile' |" 
+			echo "|    Now run install_osx.sh    |"
+	fi
+	echo "|-------~install_osx.sh~-------|"
 	echo "|------------------------------|"
-	echo ""
+	./install_osx.sh
 }
 
 start
@@ -131,5 +144,3 @@ if [ ! autoconf_installed ]
 fi
 
 setup
-
-
