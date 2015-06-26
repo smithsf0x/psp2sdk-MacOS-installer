@@ -15,4 +15,5 @@ normal output
 
 ###Credits
 - All the people who made the PSP2SDK possible
+- The DevKitPRO Team
 - doobz aka moska for answering all my questions 
