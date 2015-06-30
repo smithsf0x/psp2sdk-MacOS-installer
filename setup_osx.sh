@@ -97,9 +97,9 @@ create_psp2_folder(){
 setup(){
 	echo -ne "|Exporting and Writing:              "
 	set_env_vars
-	echo -ne "|Creating PSP2SDK folder:            "
+	echo -ne "|Creating psp2 folder:               "
 	create_psp2_folder
-	echo -ne "|Cloning psp2sdk folder:             "
+	echo -ne "|Cloning PSP2SDK folder:             "
 	load_psp2sdk
 	echo "|------------------------------|"
 	echo "|        Setup FINISHED        |"
