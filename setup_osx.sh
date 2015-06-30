@@ -15,6 +15,16 @@ start(){
 	echo "|"
 }
 
+load_psp2sdk(){
+	git clone https://github.com/psp2dev/psp2sdk.git ./tmp >& /dev/null
+	cd tmp
+	cp autogen.sh ../ && cp -r src ../src && cp -r tools ../tools
+	cd ..
+	rm -Rf tmp
+	echo "DONE"
+}
+
+
 check_command_line_tools(){
 	xcode-select -p >& /dev/null
 	current_exit_status=$?
@@ -89,6 +99,8 @@ setup(){
 	set_env_vars
 	echo -ne "|Creating PSP2SDK folder:            "
 	create_psp2_folder
+	echo -ne "|Cloning psp2sdk folder:             "
+	load_psp2sdk
 	echo "|------------------------------|"
 	echo "|        Setup FINISHED        |"
 	if [ $source_flag == 1 ]
